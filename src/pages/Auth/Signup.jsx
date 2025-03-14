@@ -1,13 +1,17 @@
 import React from "react";
-
 const Signup = () => {
   return (
-    <div className="flex justify-center items-center h-[100vh]">
+    <div className="flex justify-center items-center h-[100vh] ">
       <div className="card bg-primary text-primary-content w-96">
         <div className="card-body">
           <div className="flex justify-center">
             <h1 className="card-title text-2xl mb-2 ">Signup</h1>
           </div>
+          <input
+            type="text"
+            placeholder="  User ID"
+            className="input input-accent"
+          />
           <input
             type="email"
             placeholder="📨 Email"

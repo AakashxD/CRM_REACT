@@ -2,12 +2,11 @@ import Login from "./pages/Auth/Login"
 import Signup from "./pages/Auth/Signup"
 
 function App() {
-
+  {console.log("hello")}
   return (
-   <>
-   <Signup/>
-   </>
+   <Login/>
+ 
   )
 }
 
-export default App
+export default App;
