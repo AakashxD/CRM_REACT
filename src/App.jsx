@@ -1,10 +1,10 @@
-import Login from "./pages/Auth/Login"
-import Signup from "./pages/Auth/Signup"
+
+import MainRoutes from "./Routers/MainRoutes";
 
 function App() {
   {console.log("hello")}
   return (
-   <Login/>
+   <MainRoutes />
  
   )
 }
