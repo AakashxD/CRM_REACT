@@ -1,4 +1,5 @@
 import React from "react";
+
 const Signup = () => {
   return (
     <div className="flex justify-center items-center h-[100vh] ">
@@ -44,7 +45,7 @@ const Signup = () => {
             />
           </label>
 
-          <div className="card-actions mt-2 mb-2 ">
+          <div className="card-actions mt-3 mb-3 ">
             <div className="dropdown dropdown-right dropdown-center">
               <div tabIndex={0} role="button" className="btn m-1">
                 TYPE
@@ -61,7 +62,7 @@ const Signup = () => {
                 </li>
               </ul>
             </div>
-            <div className="flex justify-center w-full mt-1">
+            <div className="flex justify-center w-full mt-3">
               <button className="btn hover:bg-gray-700">Submit</button>
             </div>
           </div>

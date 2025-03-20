@@ -6,13 +6,16 @@ const initialState={
     token:localStorage.getItem("token") || undefined,
     isLoggedIn:localStorage.getItem("auth") || false
 }
-const login=createAsyncThunk("/auth/login", async (data)=>{
+ export const login=createAsyncThunk("/auth/login", async (data)=>{
+    console.log(data);
     try {
         const response=await axiosInstance.post('/auth/signin',data);
+        console.log("res",response);
         return response;
     } catch (error) {
         console.log(error)
     }
+
 })
 const authSlice=createSlice({
     name:'Auth',
@@ -22,13 +25,13 @@ const authSlice=createSlice({
     extraReducers:(builder)=>{
       builder
        .addCase(login.fulfilled, (state,action)=>{
-                    state.isLoggedIn=(action.payload.token !== undefined);
-                    state.data=action.payload.userData
-                    state.role=action.payload.userData?.userType;
-                    state.token=action.payload.token;
-                    localStorage.setItem("token",action.payload.token);
-                    localStorage.setItem("data",action.payload.userData);
-                    localStorage.setItem("role",action.payload.userData?.userType);
+                    state.isLoggedIn=(action.payload.data?.token !== undefined);
+                    state.data=action.payload.data?.userData
+                    state.role=action.payload.data?.userData?.userType;
+                    state.token=action.payload.data?.token;
+                    localStorage.setItem("token",action.payload.data?.token);
+                    localStorage.setItem("data",JSON.stringify(action.payload.data?.userData));
+                    localStorage.setItem("role",action.payload.data?.userData?.userType);
                     localStorage.setItem("auth",true);
                
        })

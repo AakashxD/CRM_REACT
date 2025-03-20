@@ -1,5 +1,20 @@
 import React from "react";
+import { useState } from "react";
+import { login } from "../../Reducers/Slice/AuthSlice";
+import { useDispatch } from "react-redux";
+
 const Login = () => {
+   const dispatch=useDispatch();
+    const [userInfo,setUserInfo]=useState({
+      email: "",
+      password:"",
+    });
+    function handleSubmit(){
+      console.log("inside handle submit");
+       const response=dispatch(login(userInfo));
+       console.log("login submit response",response);
+
+    }
   return (
     <div className="flex justify-center items-center h-[100vh]">
       <div className="card bg-primary text-primary-content w-96">
@@ -8,7 +23,13 @@ const Login = () => {
             <h1 className="card-title text-2xl mb-2 ">Login</h1>
             </div>
          
-          <input type="text" placeholder="USER ID" className="input input-accent" />
+          <input 
+            type="email"
+            placeholder="📨 Email" 
+            className="input input-accent"  
+            value={userInfo.email} 
+            onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+          />
           <label className="input validator">
             <svg
               className="h-[1em] opacity-50"
@@ -26,6 +47,7 @@ const Login = () => {
                 <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
               </g>
             </svg>
+
             <input
               type="password"
               required
@@ -33,12 +55,14 @@ const Login = () => {
               minlength="8"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+              value={userInfo.password} 
+              onChange={(e) => setUserInfo({ ...userInfo, password: e.target.value })}
             />
           </label>
     
           <div className="card-actions justify-end">
           <div className="flex justify-center w-full">
-            <button className="btn hover:bg-gray-700">Submit</button>
+            <button className="btn hover:bg-gray-700" onClick={handleSubmit}>Submit</button>
             </div>
           </div>
         </div>
