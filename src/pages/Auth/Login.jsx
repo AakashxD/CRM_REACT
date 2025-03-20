@@ -2,17 +2,28 @@ import React from "react";
 import { useState } from "react";
 import { login } from "../../Reducers/Slice/AuthSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
    const dispatch=useDispatch();
+   const navigator=useNavigate();
     const [userInfo,setUserInfo]=useState({
       email: "",
       password:"",
     });
-    function handleSubmit(){
-      console.log("inside handle submit");
-       const response=dispatch(login(userInfo));
+   async function handleSubmit(){
+
+       const response=await dispatch(login(userInfo));
+     
        console.log("login submit response",response);
+       
+       const getislogin=localStorage.getItem("auth");
+       if(getislogin){
+        setTimeout(()=>{
+             navigator('/');
+        },3000)
+       }
+       
 
     }
   return (
