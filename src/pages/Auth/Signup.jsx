@@ -1,22 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
+import axiosInstance from "../../config/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+    name: "",
+    clientName: "",
+    userType: "",
+    userStatus: "",
+  });
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    console.log(userInfo);
+    try {
+      const response = await axiosInstance.post("/auth/signup", userInfo);
+      console.log(response);
+      if (response) {
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      }
+      defaultValue();
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
+  }
+
+  function defaultValue() {
+    setUserInfo({
+      email: "",
+      password: "",
+      name: "",
+      clientName: "",
+      userType: "",
+      userStatus: "",
+    });
+  }
+
+  function handleUserTypeSelection(e) {
+    const type = e.target.textContent.trim().toLowerCase(); // Remove any extra spaces
+    setUserInfo((prev) => ({
+      ...prev,
+      userType: type,
+      userStatus: type.toUpperCase() === "CUSTOMER" ? "approved" : "suspended",
+    }));
+  }
+
   return (
-    <div className="flex justify-center items-center h-[100vh] ">
+    <div className="flex justify-center items-center h-[100vh]">
       <div className="card bg-primary text-primary-content w-96">
         <div className="card-body">
           <div className="flex justify-center">
-            <h1 className="card-title text-2xl mb-2 ">Signup</h1>
+            <h1 className="card-title text-2xl mb-2">Signup</h1>
           </div>
           <input
             type="text"
-            placeholder="  User ID"
+            placeholder="Name"
             className="input input-accent"
+            value={userInfo.name}
+            onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
           />
           <input
             type="email"
-            placeholder="📨 Email"
+            placeholder="Email"
             className="input input-accent"
+            value={userInfo.email}
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, email: e.target.value })
+            }
           />
           <label className="input validator">
             <svg
@@ -39,31 +94,48 @@ const Signup = () => {
               type="password"
               required
               placeholder="Password"
-              minlength="8"
+              minLength="8"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+              value={userInfo.password}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, password: e.target.value })
+              }
             />
           </label>
-
-          <div className="card-actions mt-3 mb-3 ">
+          <div className="card-actions mt-3 mb-3">
             <div className="dropdown dropdown-right dropdown-center">
               <div tabIndex={0} role="button" className="btn m-1">
-                TYPE
+                {userInfo.userType ? userInfo.userType.toUpperCase() : "USER TYPE"}
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-              >
+              <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                 <li>
-                  <a>CUSTOMER</a>
+                  <button onClick={handleUserTypeSelection}>CUSTOMER</button>
                 </li>
                 <li>
-                  <a>ENGINEER</a>
+                  <button onClick={handleUserTypeSelection}>ENGINEER</button>
+                </li>
+                <li>
+                  <button onClick={handleUserTypeSelection}>ADMIN</button>
                 </li>
               </ul>
             </div>
-            <div className="flex justify-center w-full mt-3">
-              <button className="btn hover:bg-gray-700">Submit</button>
+          </div>
+
+          <input
+            type="text"
+            placeholder="Client Name"
+            className="input input-accent"
+            value={userInfo.clientName}
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, clientName: e.target.value })
+            }
+          />
+          <div className="card-actions justify-end">
+            <div className="flex justify-center w-full">
+              <button className="btn hover:bg-gray-700" onClick={handleSubmit}>
+                Submit
+              </button>
             </div>
           </div>
         </div>
