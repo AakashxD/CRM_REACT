@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast"
 const Signup = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
@@ -20,12 +20,14 @@ const Signup = () => {
       const response = await axiosInstance.post("/auth/signup", userInfo);
       console.log(response);
       if (response) {
+        toast.success("successful signed up")
         setTimeout(() => {
           navigate("/");
         }, 3000);
       }
       defaultValue();
     } catch (error) {
+      toast.error("somethong went wrong ,please try again!")
       console.error("Signup failed:", error);
     }
   }
